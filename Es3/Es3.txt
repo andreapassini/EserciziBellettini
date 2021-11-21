@@ -1,0 +1,17 @@
+printf "text A\n" > A
+printf "text B\n" > B
+
+git add A B
+
+git commit -m root
+
+printf "text C\n" > C
+
+git add C
+
+git checkout -b uno
+
+git commit -m first
+
+git checkout master
+

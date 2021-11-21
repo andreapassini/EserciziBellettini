@@ -1,0 +1,44 @@
+// I commit
+
+printf "text A\n" > A
+printf "text B\n" > B
+
+git add A B
+
+git commit -m "uno"
+
+// Per controllare il commit e l'hash del tree
+// git cat-file -p <hash del commit> 
+// Da qui si prende l'hash del tree
+// Per controllare i file e il loro hash
+
+git branch "student"
+
+// Creo nuovo branche "student"
+// Che punta dove punta HEAD
+// Poi non facendo altri commit su student mi rimarrà lì
+
+
+// II Commit
+
+git mv A D
+git mv B C
+
+git commit -m "due"
+
+// III Commit
+
+printf "text C\n" > A
+cp A B
+git add A B
+
+mkdir _C
+mv D C _C
+mv _C C
+
+git add C D
+
+git commit -m "tre"
+
+git switch student
+
