@@ -1,0 +1,10 @@
+printf "primo\n" > T
+git add T
+
+printf "linea\n" > S
+mkdir R
+mv S R
+
+git add R
+
+git commit -m "feature RT"
