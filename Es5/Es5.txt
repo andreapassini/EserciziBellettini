@@ -1,0 +1,13 @@
+#!/bin/bash
+
+printf "pluto\n" > X
+printf "pippo\n" > Y
+
+mkdir Z
+cp Y Z/Y
+
+git add X Y Z
+
+git commit -m primo
+
+// chmod u+x YourScriptFileName.sh
