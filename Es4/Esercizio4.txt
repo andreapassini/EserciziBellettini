@@ -4,7 +4,7 @@ printf "primo\n" > T
 printf "linea\n" > S
 mkdir R
 
-git add T S R
+git add T S
 
 git mv S R
 
