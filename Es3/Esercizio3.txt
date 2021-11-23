@@ -19,7 +19,6 @@ git commit -m first
 git switch master
 
 mkdir D
-git add D
 
 printf "text E\n" > E
 git add E
