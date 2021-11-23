@@ -1,0 +1,36 @@
+git init
+
+printf "pluto\n" > X
+printf "pippo\n" > Y
+
+mkdir Z
+
+cp Y Z/Y
+
+git add X Y Z
+(adesso va fatto add sulla cartella Z siccome contiene un file!)
+
+git commit -m primo
+
+git rm Y
+
+cp Z/Y X
+
+printf "pippo e minnie\n" > D
+
+git add X D
+
+git commit -m successivo
+
+git branch student
+git branch delivered
+
+mkdir Z2
+
+git mv D X Z Z2
+
+git mv Z2 Z (rename)
+
+git commit -m ultimo?
+
+git switch student
