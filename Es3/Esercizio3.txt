@@ -1,0 +1,33 @@
+git init
+
+printf "text A\n" > A
+printf "text B\n" > B
+
+git add A B
+
+git commit -m root
+
+git branch uno
+git switch uno
+
+printf "text C\n" > C
+
+git add C
+
+git commit -m first
+
+git switch master
+
+mkdir D
+git add D
+
+printf "text E\n" > E
+git add E
+
+git mv A B E D
+
+git commit -m bis
+
+git merge master uno -m ooohhh
+
+
