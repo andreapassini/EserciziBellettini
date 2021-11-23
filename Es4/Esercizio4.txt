@@ -1,0 +1,29 @@
+git init
+
+printf "primo\n" > T
+printf "linea\n" > S
+mkdir R
+
+git add T S R
+
+git mv S R
+
+git commit -m "feature RT"
+
+mkdir Z
+
+cp R/S U
+
+printf "primo\naggiunta\n" > T
+
+git add T U
+
+git mv R/S Z
+
+git commit -m "feature ZUT"
+
+git branch ZUT
+
+git rm Z/S U T
+
+git commit -m end
