@@ -19,4 +19,10 @@ git commit -m bello
 git branch ok
 git switch ok
 
+printf "aggiunta\n" >> Z (append)
 
+git add Z (forse non serve)
+
+git commit -m ultimo
+
+git switch master
