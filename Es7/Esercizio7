@@ -1,1 +1,28 @@
 git init
+
+printf "primo file\n" > primo
+
+git add primo
+
+git commit -m uno
+
+printf "secondo file\n" > secondo
+
+git add secondo
+
+git commit -m due
+
+git branch develop
+git switch develop
+
+printf "modificato\n" >> primo
+
+git add primo
+
+git commit -m sviluppi
+
+printf "terzo file\n" > terzo
+
+git add terzo
+
+git commit -m tre
