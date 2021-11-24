@@ -1,6 +1,6 @@
 git init
 
-printf "primo file\n" > primo
+printf "primo file" > primo
 
 git add primo
 git commit -m uno
