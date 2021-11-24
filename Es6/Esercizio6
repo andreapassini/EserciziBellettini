@@ -1,0 +1,20 @@
+git init
+
+printf "uno\n" > U
+printf "due\n" > Z
+
+git add U Z
+
+git commit -m primo
+
+mkdir A
+
+#controllare
+
+printf "tre\n" > U
+cp U A (file)
+
+git mv U A (folder)
+
+git add U A (folder)
+
