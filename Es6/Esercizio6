@@ -9,12 +9,14 @@ git commit -m primo
 
 mkdir A
 
-#controllare
+printf "tre\n" > B
+git mv U A
 
-printf "tre\n" > U
-cp U A (file)
+git add B A (forse basta solo add B)
 
-git mv U A (folder)
+git commit -m bello
 
-git add U A (folder)
+git branch ok
+git switch ok
+
 
