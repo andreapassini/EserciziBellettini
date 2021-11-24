@@ -1,28 +1,26 @@
 git init
 
-printf "uno\n" > U
-printf "due\n" > Z
+printf "uno" > U
+printf "due" > Z
 
 git add U Z
-
 git commit -m primo
 
-mkdir A
-
 printf "tre\n" > B
-git mv U A
 
-git add B A (forse basta solo add B)
+mkdir A 
+mv U A
+git rm U
 
+git add A B
 git commit -m bello
 
 git branch ok
 git switch ok
 
-printf "aggiunta\n" >> Z (append)
+printf "\naggiunta" >> Z
 
-git add Z (forse non serve)
-
-git commit -m ultimo
+git add Z
+git commit -m finale
 
 git switch master
