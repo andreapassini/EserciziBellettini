@@ -1,1 +1,32 @@
 git init
+
+printf "start\n" > start.txt
+
+git add start.txt
+
+git commit -m uno
+
+git branch develop
+git branch trunk
+
+git switch develop
+
+printf "continue\n" >> start.txt
+git add start.txt
+
+git commit -m edit
+
+mkdir back
+git mv start.txt back
+
+git add back start.txt
+
+git commit -m moved
+
+printf "new\n" > lib.txt
+
+git commit -m lib
+
+git switch trunk
+
+
