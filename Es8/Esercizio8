@@ -29,4 +29,18 @@ git commit -m lib
 
 git switch trunk
 
+printf "new\n" > lib.txt
 
+git add lib.txt
+
+git commit -m lib
+
+printf "continue\n" >> start.txt
+
+git add start.txt
+
+git commit -m edit
+
+git branch -d master
+
+git switch trunk
