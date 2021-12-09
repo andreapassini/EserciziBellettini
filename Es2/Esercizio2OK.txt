@@ -18,3 +18,10 @@ git add A B
 
 git commit -m tre
 
+git rm A B
+
+#rename folder otherwise conflicting file and folder name
+git mv C C_ 
+git mv C/C D/C .
+
+git commit -m due
