@@ -7,3 +7,14 @@ git add A B
 
 git commit -m uno
 
+mkdir C
+cp A C/D
+cp B C/C
+git add C
+
+printf "text C\n" > A
+cp A B
+git add A B
+
+git commit -m tre
+
