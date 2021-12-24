@@ -1,0 +1,127 @@
+note
+	description: "Clock counting seconds, minutes, and hours."
+
+class
+	CLOCK
+
+inherit
+
+	ANY
+		redefine
+			out
+		end
+
+create
+	make, make_with_current_time
+
+feature {NONE} -- Initialization
+
+	make (a_hours, a_minutes, a_seconds: INTEGER)
+		do
+			set_hours (a_hours)
+			set_minutes (a_minutes)
+			set_seconds (a_seconds)
+		ensure
+			hours_set: hours = a_hours
+			minutes_set: minutes = a_minutes
+			seconds_set: seconds = a_seconds
+		end
+
+	make_with_current_time
+	local
+		f: RAW_FILE
+		t: INTEGER
+		do
+			create f.make_create_read_write("CLOCK_TMP_XXXX")
+			t := f.date.integer_remainder (24*60*60)
+			f.close
+			f.wipe_out
+			set_seconds (t.integer_remainder (60))
+			set_minutes (t.integer_remainder (60*60).integer_quotient (60))
+            t := t - t.integer_remainder (60*60)
+            set_hours(t.integer_quotient (60*60))
+			f.delete
+		end
+
+feature -- Access
+
+	hours: INTEGER
+
+	minutes: INTEGER
+
+	seconds: INTEGER
+
+feature -- Element change
+
+	set_hours (a_value: INTEGER)
+			-- Set `hours' to `a_value'.
+		do
+			hours := a_value
+		end
+
+	set_minutes (a_value: INTEGER)
+			-- Set `minutes' to `a_value'.
+		do
+			minutes := a_value
+		end
+
+	set_seconds (a_value: INTEGER)
+			-- Set `seconds' to `a_value'.
+		do
+			seconds := a_value
+		end
+
+feature -- Basic operations
+
+	increase_hours
+			-- Increase `hours' by one.
+		do
+			if hours = 23 then
+				set_hours (0)
+			else
+				set_hours (hours + 1)
+			end
+		end
+
+	increase_minutes
+			-- Increase `minutes' by one.
+		do
+			if minutes = 59 then
+				set_minutes (0)
+				increase_hours
+			else
+				set_minutes (minutes + 1)
+			end
+		end
+
+	increase_seconds
+			-- Increase `seconds' by one.
+		do
+			if seconds = 59 then
+				set_seconds (0)
+				increase_minutes
+			else
+				set_seconds (seconds + 1)
+			end
+		end
+
+	out: STRING
+		local
+			hh, mm, ss: STRING
+		do
+			hh := hours.out.twin
+			if hh.count < 2 then
+				hh.prepend ("0")
+			end
+			mm := minutes.out.twin
+			if mm.count < 2 then
+				mm.prepend ("0")
+			end
+			ss := seconds.out.twin
+			if ss.count < 2 then
+				ss.prepend ("0")
+			end
+			Result := hh + ":" + mm + ":" + ss
+		end
+
+end
