@@ -1,8 +1,12 @@
 # EserciziBellettini
 
-Bella Andre :)
+#TO DO LIST
 
-Ho fatto anche l'es 8 tutto
-Dai un occhio agli hash dato che non vorrei abbia saltato qualche newline e quindi non tornano
+1. Correggere esercizio 2 Git!
+2. Finire dispensa Eiffel (OK)
+3. Iniziare temi d'esame
 
-Correggere esercizio 2!
+#STUDY PLAN
+28/12/2021 -> fare tutta la dispensa + slides su Eiffel (OK)
+29/12/2021 -> scrivere esercizio bowling + tema d'esame 1
+30/12/2021 -> valutazione preparazione Svigruppo: se ok cambia materia
