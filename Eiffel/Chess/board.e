@@ -77,34 +77,72 @@ feature
 		end
 
 	put (where: STRING; p: PIECE)
+		--Punto 3
+		require
+			-- posizione valida e vuota (per mangiare un pezzo però può non essere vuota!)
+			is_valid_code(where)
+			-- and is_empty(where)
+			-- pezzo valido nulla siccome void safe
+		--
 		local
 			pos: TUPLE [r: INTEGER; c: INTEGER]
 		do
 			pos := to_row_col (where)
 			matrix [pos.r, pos.c].set_presence (p)
+		-- Punto 3
+		ensure
+		--la posizione non è detto fosse già vuota se vi si trovava un pezzo mangiato
+			--(old is_empty(where)) and
+			not is_empty(where) and get(where) = p
+		--
 		end
 
 	get (where: STRING): detachable PIECE
+		-- Punto 3
+		require
+			is_valid_code(where)
+		--
 		local
 			pos: TUPLE [r: INTEGER; c: INTEGER]
 		do
 			pos := to_row_col (where)
 			Result := matrix [pos.r, pos.c].get_presence
+		-- Punto 3
+		-- siccome detachable posso anche ritornare void quindi non garantisco nulla
+		--
 		end
 
 	remove (where: STRING)
+		-- Punto 3
+		require
+			is_valid_code(where) and not is_empty(where)
+		--
 		local
 			pos: TUPLE [r: INTEGER; c: INTEGER]
 		do
 			pos := to_row_col (where)
 			matrix [pos.r, pos.c].set_presence (Void)
-
+		-- Punto 3
+		ensure
+			-- rimuovo pezzo e basta
+			(old not is_empty(where)) and is_empty(where)
+			-- oppure get invece di is_empty
+		--
 		end
 
 	move (fromw, tow: STRING)
+		-- Punto  4
 		require
+			-- modifica 1
+			is_valid_code(fromw) and is_valid_code(tow)
+			--
 			ok_from: not is_empty (fromw)
 			ok_to: is_empty (tow)
+			-- modifica 2
+			-- da sapere!
+			attached get(fromw) as p implies p.is_valid_move (Current, fromw, tow)
+			--
+
 		do
 			if attached get (fromw) as p then
 			remove (fromw)
@@ -144,5 +182,7 @@ feature
 			end
 			Result := Result + "%N"
 		end
+
+-- invariant
 
 end
