@@ -25,7 +25,12 @@ feature {NONE} -- Initialization
 			create b.make
 			create wk.make ("WHITE")
 			create bk.make ("BLACK")
-			
+			print ("%N***********************************************%N")
+			b.put ("a5", wk)
+			b.put ("h3", bk)
+			print (b)
+			b.move ("a5", "b6")
+			print (b)
 		end
 
 end
