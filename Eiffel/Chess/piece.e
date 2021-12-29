@@ -11,7 +11,7 @@ feature
 
 	is_valid_move (board: BOARD; from_code, to_code: STRING): BOOLEAN
 	require
-		board.is_valid_code (from_code) and board.is_valid_code (to_code)
+		board.is_valid_code (from_code)and board.is_valid_code (to_code)
 	deferred
 	end
 	-- English name of the piece
@@ -19,6 +19,10 @@ feature
 	color: STRING
 
 	make (player: STRING)
+	-- Punto 1
+	require
+		player.as_upper = "WHITE" or player.as_upper = "BLACK"
+	--
 	do
 		color := player.as_upper
 	end

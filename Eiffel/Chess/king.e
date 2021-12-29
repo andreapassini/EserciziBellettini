@@ -22,6 +22,13 @@ feature {NONE}
 
 feature
 	make (player: STRING)
+		-- Punto 2
+		require else
+			player.as_upper.is_equal ("SINGLE")
+		-- in questo caso tramite require else ho allentato le precondizioni sulla stringa di input rendendo possible l'inserimento della stringa
+		-- "SINGLE" indipendentemente dal fatto che sia inserita minuscola o minuscola quindi l'istruzione crea un oggetto KING di colore WHITE
+		-- e assegna a repr ASCII
+		--
 		do
 			name := "KING"
 			repr := "UNICODE"
