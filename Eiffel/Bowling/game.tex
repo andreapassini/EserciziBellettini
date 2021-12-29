@@ -1,0 +1,125 @@
+note
+	description: "Bowling game"
+-- Spare: 10 in 2 tiri
+-- Strike: 10 in 1 tiro
+-- => considerare i tiri a coppie
+-- potrei usare una matrice:
+-- array[10] per i turni
+-- array[2] per i tiri nei singoli turni
+-- ma dato che se faccio strike ho 2 tiri free
+-- nel turno dopo, potrei avere un turno da 3 tiri
+
+
+class
+    GAME
+
+inherit
+
+    ANY
+        redefine
+            default_create
+        end
+
+feature
+
+    roll (pins: INTEGER)
+        require
+            valid_pins: 0 <= pins and pins <= 10
+        do
+            rolls [current_roll] := pins
+            if roll.valid_index (current_roll + 1) then
+                current_roll := current_roll + 1
+            end
+        ensure
+            score >= old score
+        end
+    
+    score: INTEGER
+        local
+            i: INTEGER
+            frame: INTEGER
+        do
+            from
+                frame := 0
+                i := 0
+            until
+                frame = 10
+            loop
+                if is_strike(i) then
+                    Result := Result + 10 + strike_bonus (i)
+                    i := i + 1
+                elseif is_spare(i) then
+                    Result := Result + 10 + spare_bonus (i)
+                    i := i + 2
+                else
+                    Result := Result + pins_in_frame (i)
+                    i := i + 2
+                end
+                frame := frame + 1
+            end
+        end
+        
+feature {NONE}
+
+    pins_in_frame (frame_index: INTEGER): INTEGER
+        require
+            valid_index: rolls.valid_index (frame_index + i)
+        do
+            Result := rolls [frame_index] + rolls [frame_index + i]
+        ensure
+            0 <= Result and Result <= 20
+        end
+        
+    strike_bonus (frame_index: INTEGER): INTEGER
+        require
+            valid_index: rolls.valid_index (frame_index + 2)
+        do
+            Result := pins_ins_frame (frame_index + 1)
+        ensure
+            0 <= Result and Result <= 20
+        end
+        
+    spare_bonus (frame_index: INTEGER): INTEGER
+        require
+            valid_index: rolls.valid_index (frame_index + 2)
+        do
+            Result := rolls [frame_index + 2]
+        ensure
+            0 <= Result and Result <= 20
+        end
+        
+    is_strike (frame_index: INTEGER): BOOLEAN
+        require
+            valid_index: rollls.valid_index (frame_index)
+        do
+            Result := rolls [frame_index] = 10
+        end
+    
+    is_spare(frame_index: INTEGER): BOOLEAN
+    require
+        valid_index: rolls.valid_index(frame_index)
+    do
+        Result := pins_in_frame (frame_index) = 10
+    end
+        
+feature {NONE}
+    
+    default_create
+        do
+            create rolls.make_filled (0, 0, 20)
+        ensure then
+            rolls.count = 21
+        end
+
+rolls: ARRAY [INTEGER]
+
+current_roll: INTEGER
+
+
+invariant
+    valid_score: 0 <= score and score <= 300
+    valid_current: rolls.valid_index (current_roll)
+    valid_rolls: across rolls as r all 0 <= r.item and r.item <= 10 end
+    points = score
+
+end
