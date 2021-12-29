@@ -102,17 +102,11 @@ feature -- Test routines
             g.roll (4)
             roll_many (16, 0)
             assert ("Wrong strike bonus. Total score " + g.score.out, g.score = 24)
-            
+        end
             
     test_perferct_game
         do
             roll_many (20, 10)
             assert ("Wrong score in perfect game " + g.score.out, g.score = 300)
         end
-
-        
 end
-
-
-
-

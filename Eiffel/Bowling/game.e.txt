@@ -14,20 +14,25 @@ class
     GAME
 
 inherit
-
     ANY
         redefine
             default_create
         end
+        
+feature {NONE}
+        
+    rolls: ARRAY [INTEGER]
+
+    current_roll: INTEGER
 
 feature
-
+    
     roll (pins: INTEGER)
         require
             valid_pins: 0 <= pins and pins <= 10
         do
             rolls [current_roll] := pins
-            if roll.valid_index (current_roll + 1) then
+            if rolls.valid_index (current_roll + 1) then
                 current_roll := current_roll + 1
             end
         ensure
@@ -74,7 +79,7 @@ feature {NONE}
         require
             valid_index: rolls.valid_index (frame_index + 2)
         do
-            Result := pins_ins_frame (frame_index + 1)
+            Result := pins_in_frame (frame_index + 1)
         ensure
             0 <= Result and Result <= 20
         end
@@ -90,17 +95,17 @@ feature {NONE}
         
     is_strike (frame_index: INTEGER): BOOLEAN
         require
-            valid_index: rollls.valid_index (frame_index)
+            valid_index: rolls.valid_index (frame_index)
         do
             Result := rolls [frame_index] = 10
         end
     
     is_spare(frame_index: INTEGER): BOOLEAN
-    require
-        valid_index: rolls.valid_index(frame_index)
-    do
-        Result := pins_in_frame (frame_index) = 10
-    end
+        require
+            valid_index: rolls.valid_index(frame_index)
+        do
+            Result := pins_in_frame (frame_index) = 10
+        end
         
 feature {NONE}
     
@@ -110,11 +115,6 @@ feature {NONE}
         ensure then
             rolls.count = 21
         end
-
-rolls: ARRAY [INTEGER]
-
-current_roll: INTEGER
-
 
 invariant
     valid_score: 0 <= score and score <= 300
