@@ -1,0 +1,133 @@
+note
+	description: "Summary description for {RING_BUFFER}."
+	author: ""
+	date: "$Date$"
+	revision: "$Revision$"
+
+--FIFO queue implemented as a {RING_BUFFER} of elements of type {G}.
+--The ring buffer uses two indexes for the first element and the next free slot of the buffer.
+--The "Always keep one slot open" technique is used to distinguish between empty and full buffers.
+
+class
+	RING_BUFFER [G]
+
+create
+	make
+
+feature --Inizialization
+
+	make (n: INTEGER)
+		--Initialize empty buffer with capacity 'n'
+		note
+			status: creator
+		require
+			n_positive: n > 0
+		do
+			create data.make_empty
+			data.grow (n + 1) --one slot more
+			data.trim
+			start := 1
+			free := 1
+		ensure
+			empty_buffer: is_empty
+			capacity: capacity = n
+		end
+
+feature --Access
+
+	item: G
+		--Current item of buffer
+		require
+			not is_empty
+		do
+			Result := data[start]
+		ensure
+			Result = data[start]
+		end
+
+	count: INTEGER
+		--Number of items in buffer
+		do
+			if free >= start then
+				Result := free - start
+			else
+				Result := data.count - start + free
+			end
+		end
+
+	capacity: INTEGER
+		--Maximum capacity of buffer
+		do
+			result := data.count - 1
+		ensure
+			Result = data.count - 1
+		end
+
+feature --Status report
+
+	is_empty: BOOLEAN
+		--Is buffer empty?
+		do
+			Result := (start = free)
+		end
+
+	is_full: BOOLEAN
+		--Is buffer full?
+		do
+			if start = 1 then
+				Result := (free = data.count)
+			else
+				Result := (free = start - 1)
+			end
+		end
+
+feature --Element change
+
+	extend (a_value: G)
+		--Add 'a_value' to end of buffer
+		require
+			not is_full
+		do
+			data[free] := a_value
+			if free = data.count then
+				free := 1
+			else
+				free := free + 1
+			end
+		end
+
+	remove
+		--Remove current item from buffer
+		require
+			not is_empty
+		do
+			if start = data.count then
+				start := 1
+			else
+				start := start + 1
+			end
+		end
+
+	wipe_out
+		--Remove all elements from buffer
+		do
+			start := free
+		ensure
+			is_empty
+		end
+
+feature --Implementation
+
+	data: ARRAY [G]
+		--Array used to store data
+
+	start: INTEGER
+		--Index of first element
+
+	free: INTEGER
+		--Index of next free position
+
+invariant
+	data_not_void: data /= void
+
+end
