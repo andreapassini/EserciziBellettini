@@ -21,10 +21,15 @@ inherit
 create
 	make_with_edge
 
+	--Punto 1
+	--La chiamata fallisce a compile time siccome i costruttori non vengono ereditati dalle sottoclassi
+	--e quindi non si può usare s.make dove s: SQUARE
+
+
 feature
 	make_with_edge (width: REAL)
 		do
 			make(width, width)
 		end
-			
+
 end

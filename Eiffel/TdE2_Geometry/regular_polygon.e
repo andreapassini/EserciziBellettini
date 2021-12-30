@@ -23,4 +23,10 @@ feature
 			Result := min_edge = other.min_edge
 		end
 
+--Punto 4
+invariant
+	Current.max_edge = Current.min_edge
+--Current (cioè this in java) forse neppure necessario
+--
+
 end

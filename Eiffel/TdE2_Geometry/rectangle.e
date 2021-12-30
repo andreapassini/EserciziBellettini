@@ -29,6 +29,9 @@ feature
 			Result := x * y
 		ensure then
 			Result = x * y
+			--Punto 4
+			and Result > 0.0 and x = old x and y = old y and n_vertices = old n_vertices
+			--
 		end
 
 	perimeter: REAL
@@ -36,9 +39,15 @@ feature
 			Result := 2 * (x + y)
 		ensure then
 			Result = 2 * (x + y)
+			--Punto 4
+			and Result > 0.0 and x = old x and y = old y and n_vertices = old n_vertices
+			--
 		end
 
 	rotate (angle: REAL)
+		--Punto 3
+		require (angle / 180.0 = 0.0)
+		--
 		local
 			a, tmp: REAL
 		do

@@ -36,7 +36,35 @@ feature --inizialization
 			tiles.count = old tiles.count + 1
 		end
 
+	--Punto 5
+	--aggiunta per controllo precondizione tiled_square
+	check_tiles: BOOLEAN
+		local
+			i: INTEGER
+		do
+			if tiles.count = 0 then Result := False
+			end
+			from
+				i := 0
+			until
+				i = tiles.count - 1
+			loop
+				if (tiles.at (i).n_vertices /= 4 or tiles.at (i).max_edge /= tiles.at (i).min_edge
+						or (tiles.count.to_real / (tiles.count.to_real.power (0.5))) /= 0.) then Result := False
+				end
+				i := i + 1
+			end
+			Result := True
+		end
+	--
+
 	tiled_square: SQUARE
+		--Punto 5
+		require
+			--check_tiles aggiunta per controllo come feature aggiuntiva
+			tiles.count > 0 and check_tiles = True
+			--infine le precondizioni dovrebbero essere garantite dal client/utente quando crea la lista tiles
+		--
 		do
 			--fake implementation
 			create Result.make_with_edge (42)
