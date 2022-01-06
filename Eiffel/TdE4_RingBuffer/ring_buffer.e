@@ -21,6 +21,11 @@ feature --Inizialization
 		note
 			status: creator
 		require
+			--Punto 4
+			--X ed Y devono avere valori superiori a 0
+			--X: per essere valido il codice è necessario che X sia almeno 2 per non sforare oltre i limiti dell'array
+			--Y: questa sequenza non è compatibile nessun valore dato che il contratto della feature remove è sempre violato
+			--
 			n_positive: n > 0
 		do
 			create data.make_empty
@@ -28,6 +33,11 @@ feature --Inizialization
 			data.trim
 			start := 1
 			free := 1
+
+			--Punto 5
+			create model.make (n)
+			--
+
 		ensure
 			empty_buffer: is_empty
 			capacity: capacity = n
@@ -43,6 +53,11 @@ feature --Access
 			Result := data[start]
 		ensure
 			Result = data[start]
+			--Punto 5
+			data[start] = model.item
+			--Siccome il model è una coda possiamo estendere la feature dato che siamo in grado di tener conto sia di tutti gli
+			--oggetti correnti nel buffer sia di tutti quelli inseriti prima
+			--
 		end
 
 	count: INTEGER
@@ -53,12 +68,16 @@ feature --Access
 			else
 				Result := data.count - start + free
 			end
+		--Part 1
+		ensure
+			Result >= 0 and Result <= data.count
+		--
 		end
 
 	capacity: INTEGER
 		--Maximum capacity of buffer
 		do
-			result := data.count - 1
+			Result := data.count - 1
 		ensure
 			Result = data.count - 1
 		end
@@ -69,6 +88,10 @@ feature --Status report
 		--Is buffer empty?
 		do
 			Result := (start = free)
+		--Part 1
+		ensure
+			Result = (count = 0)
+		--
 		end
 
 	is_full: BOOLEAN
@@ -79,6 +102,10 @@ feature --Status report
 			else
 				Result := (free = start - 1)
 			end
+		--Part 1
+		ensure
+			Result = (count = capacity)
+		--
 		end
 
 feature --Element change
@@ -88,12 +115,23 @@ feature --Element change
 		require
 			not is_full
 		do
+			--Punto 5
+			model.put (a_value)
+			--
 			data[free] := a_value
 			if free = data.count then
 				free := 1
 			else
 				free := free + 1
 			end
+		--Punto 3
+		ensure
+			count = old count + 1
+			data.has (a_value)
+		--
+		--Punto 5
+		item = model.item
+		--
 		end
 
 	remove
@@ -101,16 +139,29 @@ feature --Element change
 		require
 			not is_empty
 		do
+			--Punto 5
+			model.remove
+			--
 			if start = data.count then
 				start := 1
 			else
 				start := start + 1
 			end
+		--Part 3
+		ensure
+			count = old count - 1
+		--
+		--Punto 5
+		old item = old model.item
+		--
 		end
 
 	wipe_out
 		--Remove all elements from buffer
 		do
+			--Punto 5
+			model.wipe_out
+			--
 			start := free
 		ensure
 			is_empty
@@ -127,7 +178,17 @@ feature --Implementation
 	free: INTEGER
 		--Index of next free position
 
+	--Punto 5
+	model: BOUNDED_QUEUE [G]
+	--
+
 invariant
 	data_not_void: data /= void
+	--Part2
+	data.valid_index (start)
+	data.valid_index (free)
+	capacity > 0
+	not (is_empty and is_full)
+	--
 
 end
