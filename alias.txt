@@ -1,0 +1,18 @@
+//Per visualizzare tutto gli oggetti 
+// ed individuare i dandling
+git config --global alias.cat-files 
+"cat-file --batch-check batch-all-objects"
+// oppure usare
+git fsck --full
+//oppure
+git fsck --no-reflog
+
+//Es di dandgling
+printf "rimosso" >> Temp
+git add Temp
+git reset --hard head
+// si crea un dandling
+
+//Git hist
+[alias]
+    hist = log --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s' --graph
