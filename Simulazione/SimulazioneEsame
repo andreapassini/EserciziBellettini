@@ -2,40 +2,35 @@ git init
 
 printf " non sto lavorando bene" > A
 git add A
-
 git commit -m "fine primo giorno"
 
+git branch main
 git branch tentativo
+
+git branch refactoring
+git switch refactoring
+
+printf "\nprova di refactoring" >> A
+printf "nuovo file utile al refactoring" > B
+git add A B
+git commit -m "fine secondo giorno"
+git tag refactoring
+
 git switch tentativo
+git branch -d refactoring
 git branch -d master
 
 printf "\ncon aggiunta di inizio nuova feature." >> A
 printf "nuova classe" > C
 git add A C
-
 git commit -m "inizio feature"
 
-git branch main
 git switch main
+git merge --no-ff tentativo -m "finita feature"
 
-git cherry-pick 34c458
-
-git merge tentativo -m "finita feature"
-
-git switch -d 34c458
-
-pritnf "prova di refactoring" >> A
-printf "nuovo file utile al refactoring" > B
-git add A B
-
-git commit -m "fine secondo giorno"
+git switch -d refactoring
 
 mkdir D
-git tag refactoring
-cp A D/A
+git mv A B D
 printf "\nmodifiche dopo aver visto nuova feature" >> D/A
-cp B D/B
-git add D
-git rm A B
-
-[Fine]
+printf "niente" > A.
