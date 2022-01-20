@@ -16,9 +16,15 @@ feature {NONE} -- Initialization
 
 	make
 			-- Run application.
+		local
+			o: RING_BUFFER [INTEGER]
 		do
 			--| Add your code here
-			print ("Hello Eiffel World!%N")
+			--print ("Hello Eiffel World!%N")
+			create o.make(10)
+			print(o.capacity)
+			print(o.count)
+
 		end
 
 end
