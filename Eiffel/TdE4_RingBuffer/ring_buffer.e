@@ -28,6 +28,7 @@ feature --Inizialization
 			data.trim
 			start := 1
 			free := 1
+			create model.make (n)
 		ensure
 			empty_buffer: is_empty
 			capacity: capacity = n
@@ -47,12 +48,18 @@ feature --Access
 
 	count: INTEGER
 		--Number of items in buffer
+		require
+		    -- può essere attivata in qualsiasi stato valido dell'oggetto
 		do
 			if free >= start then
 				Result := free - start
 			else
 				Result := data.count - start + free
 			end
+		ensure
+            valid_count: Result >= 0 and Result <= capacity
+            implementation_ok: (free >= start implies Result = free - start)
+            and (free < start implies Result = data.count - start + free)
 		end
 
 	capacity: INTEGER
@@ -67,8 +74,14 @@ feature --Status report
 
 	is_empty: BOOLEAN
 		--Is buffer empty?
+		require
+	        -- può essere chimata in tutti gli stati validi di ring buffer
 		do
 			Result := (start = free)
+		ensure
+            -- Se non posso utilizzare start e free
+            -- posso usare count
+            Result = (count = 0)
 		end
 
 	is_full: BOOLEAN
@@ -79,6 +92,8 @@ feature --Status report
 			else
 				Result := (free = start - 1)
 			end
+		ensure
+		    Result = (count = capacity)
 		end
 
 feature --Element change
@@ -94,6 +109,11 @@ feature --Element change
 			else
 				free := free + 1
 			end
+			model.extend (a_value)
+		ensure
+		    extended: count = old count + 1
+		    data.has (a_value)
+		    fifo: item = model.item
 		end
 
 	remove
@@ -106,6 +126,10 @@ feature --Element change
 			else
 				start := start + 1
 			end
+			model.remove
+		ensure
+		    -- il numero di elementi è diminuito
+		    count = old count - 1
 		end
 
 	wipe_out
@@ -119,15 +143,23 @@ feature --Element change
 feature --Implementation
 
 	data: ARRAY [G]
-		--Array used to store data
+		-- Array used to store data
 
 	start: INTEGER
-		--Index of first element
+		-- Index of first element
 
 	free: INTEGER
-		--Index of next free position
+		-- Index of next free position
+		
+    model: BOUNDED_QUEUE[G]
+        -- Aggiunto per imporre la politica FIFO
 
 invariant
 	data_not_void: data /= void
-
+    -- altri invariant
+    -- quello di count
+    start_in_bounds: data.valid_index (start)
+    free_in_bounds: data.valid_index (free)
+    positive_capacity: capacity > 0
+    not_both_empty_full: not (is_empty and is_full)
 end

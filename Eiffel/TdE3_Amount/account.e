@@ -22,6 +22,16 @@ feature --Inizialitazion
 			credit_limit_set: credit_limit = 1000
 		end
 
+	make (b, c_l: INTEGER)
+		do	
+			balance := b
+			credit_limit := c_l
+		ensure
+			balance_set: balance = b
+			credit_limit_set: credit_limit = c_l
+		end
+
+
 feature --Access
 
 	credit_limit: INTEGER
@@ -49,7 +59,7 @@ feature --Element change
 		end
 
 	deposit (amount: INTEGER)
-		--Set 'credit limit' to 'limit'
+		-- Deposit 'amount' in this account
 		require
 			amount_non_negative: amount >= 0
 		do
@@ -101,6 +111,39 @@ feature
 				False
 			end
 		end
+
+
+feature -- Punto 3
+
+	merge (a, b: ACCOUNT)
+	-- balance somma dei balance
+	-- credit_limit il > dei 2
+	require
+		a.credit_limit > 0
+		a.balance >= - a.credit_limit
+		b.credit_limit > 0
+		b.balance >= - b.credit_limit
+		a.balance + b.balance >= - (a.credit_limit).max(b.credit_limit)
+		a /= b
+	local
+		_balance: INTEGER
+		_credit_limit: INTEGER
+	do
+		-- mi serve un nuovo costruttore
+		_balance := a.balance + b.balance
+
+		if a.credit_limit > b.credit_limit
+		then
+			_credit_limit := a.credit_limit
+		else
+			_credit_limit := b.credit_limit
+
+		create c.make(_balance, _credit_limit)
+	ensure
+		sum_balance: c.balance = (a.balance + b.balance)
+		max_credit_limit: c.credit_limit = (a.balance).max(b.balance)
+	end
+
 
 invariant
 	credit_limit_not_negative: credit_limit > 0
