@@ -7,7 +7,7 @@ git fsck --full
 //oppure
 git fsck --no-reflog
 
-//Es di dandgling
+//Es di dandgling blob
 printf "rimosso" >> Temp
 git add Temp
 git reset --hard head
@@ -16,6 +16,10 @@ git reset --hard head
 //Git hist
 [alias]
     hist = log --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s' --graph
+
+//per vedere tutti i commit a grafico
+git log --graph [branchname]
+git log --all --decorate --oneline --graph
 
 //leggere commit
 git cat-file -p <hash del commit> 
