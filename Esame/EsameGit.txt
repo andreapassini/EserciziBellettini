@@ -1,0 +1,38 @@
+git init
+
+printf "inizio" > A
+printf "inizio2" > B
+git add A B
+
+git commit -m start
+
+git branch develop
+
+printf "\naggiunta troppo lunga per sopportare di scriverla due volte" >> B
+git commit -m "grande fatica"
+git reset develop
+
+git switch develop
+
+mkdir backup
+cp A backup/A
+cp B backup/B
+printf "\nevoluzione" >> A
+git commit -m tentativo
+
+printf "\naggiunta troppo lunga per sopportare di scriverla due volte" >> B
+git commit -m "grande fatica"
+
+printf "\nmodifiche inutili" >> A
+git commit -m spazzatura?
+
+git switch main
+
+printf "\naggiunta troppo lunga per sopportare di scriverla due volte" >> B
+git commit -m "viva git"
+
+printf "\nfine... forse" >> A
+git add A
+
+printf "inizio\nfine" > A
+printf "nuovo inizio" > C
